@@ -23,17 +23,8 @@ Es creen els fils sense cap prioritat o control addicional. El sistema operatiu 
 
 El fil "Pepe" s'executa completament abans que el fil "Juan". Això es fa ajustant les prioritats dels fils.
 
-Exemple de sortida:
+<img src="/temporal/2prin.png" width="500" />
 
-Main thread finalitzat.
-Pepe 1
-Pepe 2
-...
-Pepe 9
-Termina el fil Pepe
-Juan 1
-...
-Termina el fil Juan
 
 Mecanisme Utilitzat:
 S'estableix una prioritat màxima per a "Pepe" (Thread.MAX_PRIORITY) i una prioritat mínima per a "Juan" (Thread.MIN_PRIORITY). Això augmenta les probabilitats que "Pepe" acabi abans.
@@ -42,18 +33,8 @@ S'estableix una prioritat màxima per a "Pepe" (Thread.MAX_PRIORITY) i una prior
 
 Els fils s'executen de manera alterna (Juan -> Pepe -> Juan -> ...). Això es garanteix mitjançant un mecanisme de control de torns.
 
-Exemple de sortida:
+<img src="/temporal/3prin.png" width="500" />
 
-Main thread finalitzat.
-Juan 1
-Pepe 1
-Juan 2
-Pepe 2
-...
-Juan 9
-Pepe 9
-Termina el fil Juan
-Termina el fil Pepe
 
 Mecanisme Utilitzat:
 Una variable compartida (tornActual) s'utilitza per sincronitzar l'execució dels fils. Només el fil amb el torn actual pot executar-se. Els altres fils cedeixen el control mitjançant Thread.yield().
