@@ -13,14 +13,8 @@ Els fils "Juan" i "Pepe" s'executen de manera intercalada de forma no estricta. 
 
 Exemple de sortida:
 
-Main thread finalitzat.
-Juan 1
-Pepe 1
-Juan 2
-Pepe 2
-...
-Termina el fil Juan
-Termina el fil Pepe
+<img src="./temporal/1prin.png" width="500" />
+
 
 Mecanisme Utilitzat:
 Es creen els fils sense cap prioritat o control addicional. El sistema operatiu planifica l'execució.
