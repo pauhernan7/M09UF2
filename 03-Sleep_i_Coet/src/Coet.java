@@ -41,8 +41,8 @@ public class Coet {
 
         while (potencia != 0) {
             try {
-                String input = reader.readLine();  // Lee una línea como String
-                potencia = Integer.parseInt(input);  // Convierte el String a entero
+                String input = reader.readLine();  
+                potencia = Integer.parseInt(input);  
 
                 if (potencia != 0) {
                     coet.passaAPotencia(potencia);
