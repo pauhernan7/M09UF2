@@ -1,4 +1,4 @@
-public class Compte {
+public class Compte extends Thread {
     private float saldo;
     private static Compte instancia;
 
@@ -14,7 +14,7 @@ public class Compte {
         return instancia;
     }
 
-    public float getSaldo() {
+    public float getSaldo() {   
         return saldo;
     }
 
