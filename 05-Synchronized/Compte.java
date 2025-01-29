@@ -1,25 +1,23 @@
-import java.util.Random;
-
 class Compte {
-    private static Compte instancia;
+    private static Compte instance;
     private float saldo;
 
     private Compte() {
         this.saldo = 0;
     }
 
-    public static Compte getInstance() {
-        if (instancia == null) {
-            instancia = new Compte();
+    public static synchronized Compte getInstance() {
+        if (instance == null) {
+            instance = new Compte();
         }
-        return instancia;
+        return instance;
     }
 
-    public float getSaldo() {
+    public synchronized float getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(float saldo) {
+    public synchronized void setSaldo(float saldo) {
         this.saldo = saldo;
     }
 }
