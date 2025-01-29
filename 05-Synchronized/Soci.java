@@ -1,51 +1,39 @@
 import java.util.Random;
 
 public class Soci extends Thread {
-    private static final Compte instancia;
+
+    private Compte CompteInstance;
     private float aportacio;
-    private int esperaMax;
-    private Random random;
+    private int experaMax;
+    private Random rnd;
     private int maxAnys;
 
-
-    public int getMaxAnys() {
-        return maxAnys;
-    }
-
-
-
     public Soci() {
-        this.aportacio = 10f;
-        this.esperaMax = 100;
-        this.random = random;
-        this.maxAnys = 10;
+        experaMax = 100;
+        maxAnys = 10;
+        aportacio = 10f;
+        rnd = new Random();
+        CompteInstance = Compte.getInstance();
     }
+    public Compte getCompteInstance() {
+        return CompteInstance;
 
-
-
-    public static Compte getInstancia() {
-        return instancia;
     }
-
-
     @Override
     public void run() {
-        for (int any = 0; i < maxAnys; any++) {
-            for (int mes = 0; j < 12; mes++) {
-                float saldoActual = compte.getSaldo();
-
-                if (mes % 2 == 0) {
-                    cuenta.setSaldo(saldoActual + aportacio);
+        for (int i = 0; i < maxAnys; i++) {
+            for (int j = 1; j <= 12; j++) {
+                if(j%2 == 0) {
+                    synchronized(CompteInstance) {CompteInstance.setSaldo(CompteInstance.getSaldo() + aportacio);}
                 } else {
-                    cuenta.setSaldo(saldoActual - aportacio);
+                    synchronized(CompteInstance) {CompteInstance.setSaldo(CompteInstance.getSaldo() - aportacio);}
                 }
-
                 try {
-                    Thread.sleep(random.nextInt(esperaMax));
+                    Thread.sleep(rnd.nextInt(experaMax));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();;
+                    e.printStackTrace();
                 }
-            }
+            }            
         }
-    }
+    }   
 }
