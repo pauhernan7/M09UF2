@@ -1,13 +1,12 @@
+# Per què s'atura l'execució al cap d'un temps?
 
-# ¿Por qué se detiene la ejecución después de un tiempo?
+Perquè els fils poden quedar bloquejats esperant una notificació (wait) si no hi ha canvis en les reserves.
 
-Porque los hilos pueden quedar bloqueados esperando una notificación (wait) si no hay cambios en las reservas.
+# Què passaria amb probabilitats del 70% (reservar) i 30% (cancel·lar)?
 
-# ¿Qué pasaría con probabilidades de 70% (reservar) y 30% (cancelar)?
+Si hi ha més reserves que cancel·lacions, l'esdeveniment s'omplirà ràpidament i els fils quedaran bloquejats en wait().
+Amb un 30% per reservar i un 70% per cancel·lar, sempre hi haurà places disponibles i pocs fils esperant.
 
-Si hay más reservas que cancelaciones, se llenará rápido y los hilos quedarán bloqueados en wait().
-Con 30% reservar y 70% cancelar, siempre habrá plazas disponibles y pocos hilos esperando.
+# Per què necessitem una llista i no només una variable de reserves?
 
-# ¿Por qué necesitamos una lista y no solo una variable de reservas?
-
-Para identificar qué asistente hizo una reserva y poder cancelarla correctamente.
+Per identificar quin assistent ha fet una reserva i poder cancel·lar-la correctament.
