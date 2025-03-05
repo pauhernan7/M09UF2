@@ -1,16 +1,29 @@
+import java.io.*;
+
 public class Barri {
-    public static void main(String[] args) {
-        Estanc estanc = new Estanc();
-        Fumador[] fumadors = new Fumador[3];
+
+    private Estanc estanc;
+    private Fumador[] fumadors;
+
+    public Barri() {
+        estanc = new Estanc();
+        fumadors = new Fumador[3];
 
         for (int i = 0; i < 3; i++) {
             fumadors[i] = new Fumador(estanc, i);
-            fumadors[i].start();
+        }
+    }
+
+    public static void main(String[] args) {
+        Barri barri = new Barri();
+
+        for (Fumador fumador : barri.fumadors) {
+            fumador.start();
         }
 
-        estanc.start();
+        barri.estanc.start();
 
-        for (Fumador fumador : fumadors) {
+        for (Fumador fumador : barri.fumadors) {
             try {
                 fumador.join();
             } catch (InterruptedException e) {
@@ -18,12 +31,6 @@ public class Barri {
             }
         }
 
-        estanc.tancarEstanc();
-
-        try {
-            estanc.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        barri.estanc.tancarEstanc();
     }
 }

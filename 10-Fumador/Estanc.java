@@ -1,10 +1,12 @@
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class Estanc extends Thread {
-    private ArrayList<Tabac> tabacs;
-    private ArrayList<Paper> papers;
-    private ArrayList<Llumi> llumins;
+
+    private static final Random rnd = new Random();
+
+    private List<Tabac> tabacs;
+    private List<Paper> papers;
+    private List<Llumi> llumins;
     private boolean obert;
 
     public Estanc() {
@@ -16,52 +18,53 @@ public class Estanc extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Estanc obert");
+
         while (obert) {
-            nouSubministrament();
+            generarSubministrament();
             try {
-                Thread.sleep(500 + new Random().nextInt(1000));
+                // Reemplazamos TimeUnit con Thread.sleep
+                Thread.sleep(rnd.nextInt(1000) + 500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
         System.out.println("Estanc tancat");
     }
 
-    public synchronized void nouSubministrament() {
-        Random rand = new Random();
-        int opcio = rand.nextInt(3);
+    private synchronized void generarSubministrament() {
+        int opcio = rnd.nextInt(3);
         switch (opcio) {
             case 0:
-                addTabac();
+                afegirTabac();
                 break;
             case 1:
-                addPaper();
+                afegirPaper();
                 break;
             case 2:
-                addLlumi();
+                afegirLlumi();
                 break;
         }
-    }
-
-    public synchronized void addTabac() {
-        tabacs.add(new Tabac());
-        System.out.println("Afegint tabac");
         notifyAll();
     }
 
-    public synchronized void addPaper() {
+    private void afegirTabac() {
+        tabacs.add(new Tabac());
+        System.out.println("Afegint Tabac");
+    }
+
+    private void afegirPaper() {
         papers.add(new Paper());
         System.out.println("Afegint Paper");
-        notifyAll();
     }
 
-    public synchronized void addLlumi() {
+    private void afegirLlumi() {
         llumins.add(new Llumi());
-        System.out.println("Afegint Llumí");
-        notifyAll();
+        System.out.println("Afegint Llumi");
     }
 
-    public synchronized Tabac venTabac() {
+    public synchronized Tabac obtenirTabac() {
         while (tabacs.isEmpty() && obert) {
             try {
                 wait();
@@ -69,13 +72,10 @@ public class Estanc extends Thread {
                 e.printStackTrace();
             }
         }
-        if (!tabacs.isEmpty()) {
-            return tabacs.remove(0);
-        }
-        return null;
+        return tabacs.isEmpty() ? null : tabacs.remove(tabacs.size() - 1);
     }
 
-    public synchronized Paper venPaper() {
+    public synchronized Paper obtenirPaper() {
         while (papers.isEmpty() && obert) {
             try {
                 wait();
@@ -83,13 +83,10 @@ public class Estanc extends Thread {
                 e.printStackTrace();
             }
         }
-        if (!papers.isEmpty()) {
-            return papers.remove(0);
-        }
-        return null;
+        return papers.isEmpty() ? null : papers.remove(papers.size() - 1);
     }
 
-    public synchronized Llumi venLlumi() {
+    public synchronized Llumi obtenirLlumi() {
         while (llumins.isEmpty() && obert) {
             try {
                 wait();
@@ -97,14 +94,13 @@ public class Estanc extends Thread {
                 e.printStackTrace();
             }
         }
-        if (!llumins.isEmpty()) {
-            return llumins.remove(0);
-        }
-        return null;
+        return llumins.isEmpty() ? null : llumins.remove(llumins.size() - 1);
     }
 
-    public synchronized void tancarEstanc() {
+    public void tancarEstanc() {
         obert = false;
-        notifyAll();
+        synchronized (this) {
+            notifyAll();
+        }
     }
 }
